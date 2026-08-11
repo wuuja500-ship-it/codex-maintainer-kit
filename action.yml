@@ -1,0 +1,13 @@
+name: Codex Maintainer Kit
+description: Suggest labels, review checklists, and release notes for open-source maintainers.
+inputs:
+  mode:
+    description: triage, review, or release
+    required: true
+    default: triage
+  file:
+    description: Path to an input JSON or commit text file
+    required: true
+runs:
+  using: node20
+  main: bin/codex-maintainer-kit.js

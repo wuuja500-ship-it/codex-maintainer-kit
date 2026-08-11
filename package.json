@@ -1,0 +1,30 @@
+{
+  "name": "codex-maintainer-kit",
+  "version": "0.1.0",
+  "description": "A lightweight CLI and GitHub Action for open-source issue triage, PR review checklists, and release notes.",
+  "type": "module",
+  "bin": {
+    "codex-maintainer-kit": "./bin/codex-maintainer-kit.js",
+    "cmk": "./bin/codex-maintainer-kit.js"
+  },
+  "scripts": {
+    "start": "node ./bin/codex-maintainer-kit.js",
+    "triage": "node ./bin/codex-maintainer-kit.js triage --file examples/issue.json",
+    "review": "node ./bin/codex-maintainer-kit.js review --file examples/pr.json",
+    "release": "node ./bin/codex-maintainer-kit.js release --file examples/commits.txt",
+    "test": "node --test"
+  },
+  "keywords": [
+    "open-source",
+    "maintainer",
+    "github",
+    "triage",
+    "release-notes",
+    "codex"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Add token redaction to GitHub webhook logs",
+  "files": [
+    "src/security/redact.js",
+    "src/webhook.js",
+    "test/redact.test.js"
+  ]
+}

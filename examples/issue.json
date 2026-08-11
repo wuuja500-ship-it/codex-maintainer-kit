@@ -1,0 +1,4 @@
+{
+  "title": "Crash when issue body is empty",
+  "body": "The CLI throws an exception when a new GitHub issue has no body."
+}
