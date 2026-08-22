@@ -14,6 +14,7 @@ codex-maintainer-kit
 
 Usage:
   cmk triage --file issue.json
+  cmk triage --file issue.json --config maintainer-kit.config.json
   cmk review --file pr.json
   cmk release --file commits.txt
 
@@ -26,8 +27,10 @@ Commands:
 function parseArgs(argv) {
   const [command, ...rest] = argv;
   const fileIndex = rest.indexOf("--file");
+  const configIndex = rest.indexOf("--config");
   const file = fileIndex >= 0 ? rest[fileIndex + 1] : undefined;
-  return { command, file };
+  const config = configIndex >= 0 ? rest[configIndex + 1] : undefined;
+  return { command, config, file };
 }
 
 async function readInput(file) {
@@ -38,7 +41,7 @@ async function readInput(file) {
 }
 
 async function main() {
-  const { command, file } = parseArgs(process.argv.slice(2));
+  const { command, config, file } = parseArgs(process.argv.slice(2));
 
   if (!command || command === "--help" || command === "-h") {
     console.log(USAGE.trim());
@@ -49,7 +52,8 @@ async function main() {
   let report;
 
   if (command === "triage") {
-    report = classifyIssue(JSON.parse(input));
+    const configInput = config ? JSON.parse(await readFile(config, "utf8")) : {};
+    report = classifyIssue(JSON.parse(input), { config: configInput });
   } else if (command === "review") {
     report = buildReviewChecklist(JSON.parse(input));
   } else if (command === "release") {

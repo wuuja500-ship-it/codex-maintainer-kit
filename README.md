@@ -7,6 +7,7 @@ The project is intentionally small and transparent. It gives maintainers useful 
 ## Features
 
 - Issue triage suggestions with labels, priority, and next action
+- Custom label rules with `maintainer-kit.config.json`
 - Pull request review checklists based on changed files
 - Release note drafts from conventional commit messages
 - Zero runtime dependencies
@@ -27,6 +28,29 @@ Run directly:
 node ./bin/codex-maintainer-kit.js triage --file examples/issue.json
 node ./bin/codex-maintainer-kit.js review --file examples/pr.json
 node ./bin/codex-maintainer-kit.js release --file examples/commits.txt
+```
+
+Use custom label rules:
+
+```bash
+node ./bin/codex-maintainer-kit.js triage --file examples/issue.json --config examples/maintainer-kit.config.json
+```
+
+Example config:
+
+```json
+{
+  "labelRules": [
+    {
+      "label": "ci",
+      "terms": ["ci", "workflow", "actions"]
+    },
+    {
+      "label": "flaky",
+      "terms": ["flaky", "unstable", "intermittent"]
+    }
+  ]
+}
 ```
 
 ## Example Output
@@ -72,7 +96,7 @@ jobs:
 ## Roadmap
 
 - Add GitHub API integration for posting triage comments
-- Add configurable label rules
+- Improve configurable label rules
 - Add repository-specific maintainer policies
 - Add optional OpenAI-powered summaries
 - Add SARIF output for security-sensitive review notes

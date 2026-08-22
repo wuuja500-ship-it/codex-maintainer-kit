@@ -1,6 +1,6 @@
 {
   "name": "codex-maintainer-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A lightweight CLI and GitHub Action for open-source issue triage, PR review checklists, and release notes.",
   "type": "module",
   "bin": {

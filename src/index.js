@@ -1,4 +1,4 @@
-const LABEL_RULES = [
+export const DEFAULT_LABEL_RULES = [
   { label: "bug", terms: ["bug", "crash", "error", "fail", "broken", "regression", "exception"] },
   { label: "security", terms: ["security", "vulnerability", "xss", "csrf", "injection", "secret", "token"] },
   { label: "docs", terms: ["docs", "documentation", "readme", "guide", "typo"] },
@@ -14,11 +14,23 @@ function unique(values) {
   return [...new Set(values)];
 }
 
-export function classifyIssue(issue) {
+export function resolveLabelRules(config = {}) {
+  const customRules = Array.isArray(config.labelRules) ? config.labelRules : [];
+  const validCustomRules = customRules.filter((rule) =>
+    typeof rule?.label === "string" &&
+    Array.isArray(rule.terms) &&
+    rule.terms.every((term) => typeof term === "string")
+  );
+
+  return [...DEFAULT_LABEL_RULES, ...validCustomRules];
+}
+
+export function classifyIssue(issue, options = {}) {
   const title = issue.title || "Untitled issue";
   const body = issue.body || "";
   const text = normalize(`${title}\n${body}`);
-  const labels = LABEL_RULES
+  const labelRules = resolveLabelRules(options.config);
+  const labels = labelRules
     .filter((rule) => rule.terms.some((term) => text.includes(term)))
     .map((rule) => rule.label);
 

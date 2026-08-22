@@ -1,0 +1,12 @@
+{
+  "labelRules": [
+    {
+      "label": "ci",
+      "terms": ["ci", "workflow", "actions"]
+    },
+    {
+      "label": "flaky",
+      "terms": ["flaky", "unstable", "intermittent"]
+    }
+  ]
+}
