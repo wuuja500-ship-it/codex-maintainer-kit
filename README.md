@@ -10,6 +10,7 @@ The project is intentionally small and transparent. It gives maintainers useful 
 - Custom label rules with `maintainer-kit.config.json`
 - Pull request review checklists based on changed files
 - Release note drafts from conventional commit messages
+- Read-only GitHub API reports for open issues and pull requests
 - Zero runtime dependencies
 - GitHub Action-ready entrypoint
 
@@ -28,7 +29,12 @@ Run directly:
 node ./bin/codex-maintainer-kit.js triage --file examples/issue.json
 node ./bin/codex-maintainer-kit.js review --file examples/pr.json
 node ./bin/codex-maintainer-kit.js release --file examples/commits.txt
+node ./bin/codex-maintainer-kit.js github --repo owner/name --resource issues
+node ./bin/codex-maintainer-kit.js github --repo owner/name --resource pulls --limit 5
+node ./bin/codex-maintainer-kit.js github --repo owner/name --resource issues --state closed --limit 20
 ```
+
+The GitHub command reads open issues or pull requests and turns them into the same maintainer reports used by the local commands. Public repositories work without a token. For higher rate limits or private repositories, set `GITHUB_TOKEN` or pass a different environment variable name with `--token-env`; the token is never printed.
 
 Use custom label rules:
 
@@ -95,7 +101,7 @@ jobs:
 
 ## Roadmap
 
-- Add GitHub API integration for posting triage comments
+- Add optional GitHub API integration for posting triage comments
 - Improve configurable label rules
 - Add repository-specific maintainer policies
 - Add optional OpenAI-powered summaries

@@ -8,6 +8,21 @@ inputs:
   file:
     description: Path to an input JSON or commit text file
     required: true
+  repo:
+    description: owner/name for the read-only GitHub report mode
+    required: false
+  resource:
+    description: issues or pulls when mode is github
+    required: false
+    default: issues
+  state:
+    description: GitHub state filter
+    required: false
+    default: open
+  limit:
+    description: Maximum GitHub items to load
+    required: false
+    default: "10"
 runs:
   using: node20
   main: bin/codex-maintainer-kit.js
