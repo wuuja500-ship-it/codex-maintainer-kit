@@ -6,6 +6,7 @@ import {
   classifyIssue,
   resolveLabelRules
 } from "../src/index.js";
+import { listGitHubIssues } from "../src/github.js";
 
 test("classifies security issues as high priority", () => {
   const result = classifyIssue({
@@ -65,4 +66,27 @@ test("ignores invalid custom label rules", () => {
 
   assert.equal(rules.some((rule) => rule.label === "valid"), true);
   assert.equal(rules.some((rule) => rule.label === "invalid"), false);
+});
+
+test("loads GitHub issues without pull requests", async () => {
+  const result = await listGitHubIssues("owner/repo", {
+    fetchImpl: async (url) => ({
+      ok: true,
+      json: async () => [
+        { number: 1, title: "Bug", body: "Crash", html_url: "https://github.com/owner/repo/issues/1", user: { login: "maintainer" }, labels: [{ name: "bug" }] },
+        { number: 2, title: "PR", pull_request: {}, body: "", html_url: "https://github.com/owner/repo/pull/2", user: { login: "contributor" }, labels: [] }
+      ]
+    })
+  });
+
+  assert.match(result[0].url, /issues\/1$/);
+  assert.equal(result.length, 1);
+  assert.equal(result[0].labels[0], "bug");
+});
+
+test("rejects invalid GitHub repository names", async () => {
+  await assert.rejects(
+    () => listGitHubIssues("invalid-repository", { fetchImpl: fetch }),
+    /owner\/name format/
+  );
 });
